@@ -34,7 +34,7 @@ class GameController:
                     self.fruitn : '@',
                     3 : 'x', 
                     self.dim_x_singles:'V',
-                    -self.dim_x_singles:'A'
+                    -self.dim_x_singles:'^'
         
                     }
      
@@ -218,6 +218,7 @@ class GameController:
             else:
                 #there is a collision:
                 self.loosers.append(index)
+                self.fintesses[index] =0
                 
         else:
             #get coordinates and direction of the tail:
