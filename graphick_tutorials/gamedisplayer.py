@@ -14,7 +14,7 @@ class GameDisplayer():
         
         self.root = tk.Tk()#
         
-        myFont = tkfont.Font(family=fontname,size= 20)
+        myFont = tkfont.Font(family=fontname, size= 20)#family=fontname,
         self.score_label = tk.Label(text="score", font=myFont)        
         self.score_label.pack()           
         
@@ -25,15 +25,15 @@ class GameDisplayer():
         
         
         self.setgc(gc)     
-        self.counter = 0
+        #self.counter = 0
         self.update_clock()
         self.root.mainloop()
 
         
 
     def update_clock(self):
-        self.counter +=1
-        print(self.counter, self.gc.snakes[0])
+        #self.counter +=1
+        #print(self.counter, self.gc.snakes[0])
         
         self.gc.move_all()
         self.score_label.configure(text= "Fitness : " + str(self.gc.fintesses[0]))
@@ -55,7 +55,9 @@ class GameDisplayer():
     
 
 gc = GameController(10,10)
-gc.reset_session()
+
+GameController.reset_session(gc)
+#gc.reset_session()
 
         
 gd = GameDisplayer(gc)

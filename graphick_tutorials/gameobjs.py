@@ -38,11 +38,13 @@ class GameController:
         
                     }
      
-
+        #xxxxxx
+        #x0000x
+        #xxxxxx
         
-        border_row = [3,-1] * self.dim_x_pairs
+        border_row = [3,-1] * self.dim_x_pairs# = 3,-1,3,-1,3,-1, ... x self.dim_x_pairs times 
         
-        inner_row = [3,-1] + [0,0] * dim_x + [3,-1]
+        inner_row = [3,-1] + [0,0] * dim_x + [3,-1]# = 3,-1 , 0,0 x dim_x [3,-1] 
         #print(inner_row)
         
         self.grid =  border_row + inner_row*dim_y + border_row
@@ -182,13 +184,13 @@ class GameController:
 
         
     
-    def new_fruit(self,x,y):
-        self.grid[y *  self.dim_x + x] = self.fruitn 
+    #def new_fruit(self,x,y):
+    #    self.grid[y *  self.dim_x + x] = self.fruitn 
             
 
         
-    def is_inbounds(self, x):
-        return 0 <= x and x < self.dimall and x  % self.dim_x
+    #def is_inbounds(self, x):
+    #    return 0 <= x and x < self.dimall and x  % self.dim_x
         
         #return 0 <= x and x <  self.dim_x  and 0 <= y and y < self.dim_y  
     
@@ -287,7 +289,7 @@ class GameController:
                 s+="\n"
             
             symbol = self.displays[self.grid[n]]
-            s += '|' + symbol + '|'
+            s += symbol+' '
  
       
         
@@ -297,7 +299,7 @@ class GameController:
         
         
     
-    
+'''    
 class SnakeBotMover:
     
     
@@ -347,7 +349,7 @@ class SnakeBotMover:
       
             
 #todo - bot                 
-
+'''
 
             
 

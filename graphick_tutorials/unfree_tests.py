@@ -3,13 +3,16 @@ from gameobjs import *
 
 gc = GameController(5,5)
 
-t = gc.toTextArea()
+show = gc.toDebugStr
+
+t = show()
 
 print(t)
+print(gc.frees)
 
 gc.reset_free_indexes()
 
-t = gc.toTextArea()
+t = show()
 
 print(t)
 
@@ -28,14 +31,14 @@ for _ in range(amount-2):
     gc.checkunfrees()
     
 
-print(gc.toTextArea())
+print(show())
 
 print(gc.frees)
 
 gc.new_random_fruit()
 gc.checkunfrees()
 
-print(gc.toTextArea())
+print(show())
 print(gc.frees)
 # now there must be only one fruit 
 # swap test:
@@ -49,7 +52,7 @@ grid_id_free = gc.frees[0]
 gc.changefree(grid_id_free, grid_id_not_free)
 
 print("-- changefree test --")
-print(gc.toTextArea())
+print(show())
 print(gc.frees)
 
 
