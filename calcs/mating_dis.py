@@ -5,16 +5,18 @@ import matplotlib.pyplot as plt
 from math_prob.pop_utils import *
 
 
+#number of genes in an organism:
+n = 60
 
-n = 1000
 
-
-# amount of mutations:
+# amount of mutations in first parent:
 x = 40
 
+# amount of mutations in the second parent:
 y = 30
 
 
+#the child will with 50% change get each gene from each of 2 parents
 def mate(arr1,arr2):
     return [ arr1[x] if r.random() < 0.5 else arr2[x] for x in range(len(arr1))]
 
