@@ -20,11 +20,16 @@ class GameController:
         
         print('__init__')
         
-    
+    #2: self.xhalf variable = size of half width pf cells, + 1 if it is odd
     def reset_grid(self,dim_x, dim_y):
         self.dim_x_pairs = dim_x+2
         self.dim_x_singles = self.dim_x_pairs * 2 
         self.dim_y = dim_y+2
+        
+        self.xhalf= (self.dim_x_pairs//2 + self.dim_x_pairs%2) *2
+        
+        self.yhalf = (self.dim_y//2 + self.dim_y%2)
+        print(" self.xhalf" ,  self.xhalf)
         
         #self.dimall_pairs =  self.dim_x * self.dim_y
         
@@ -32,7 +37,7 @@ class GameController:
                     -2 : '<',
                     2 : '>', 
                     self.fruitn : '@',
-                    3 : 'x', 
+                    3 : '#', 
                     self.dim_x_singles:'V',
                     -self.dim_x_singles:'^'
         
@@ -115,10 +120,12 @@ class GameController:
         self.frees[unfree_index] = last_free_pos
         #self.frees.pop()
         
+    #8: previous new_random_fruit function to put random obstacle on the firld :
+    # def new_random_fruit(self):
         
-    def new_random_fruit(self):
+    def new_random_object(self, value):
         fruit_index = r.choice(self.frees) 
-        self.grid[fruit_index] = self.fruitn
+        self.grid[fruit_index] = value
         self.unfree(fruit_index)
         
    
@@ -145,21 +152,31 @@ class GameController:
             self.unfree(grid_id)
             
         
-        sn = [tail + (size-1)*dir, tail]
+        head = tail + (size-1)*dir
+        
+        sn = [head, tail]
+        
         self.snakes.append(sn) # snake = [head, tail]
         self.fintesses.append(0)
         #self.loosers.append(0)
+        return sn
         
-        
-    def create_first_snake(self):
+    # 1:  self.player_snake   
+    def create_player_snake(self):
         dir = - self.dim_x_singles
-        self.create_snake(6, 6, dir, 3)
-
+        self.player_snake = self.create_snake(6, 6, dir, 3)
+        
+        
+    
     def reset_session(self):
         self.reset_grid(self.dim_x_pairs -2 , self.dim_y-2)
         self.snakes = []
-        self.create_first_snake()
-        self.new_random_fruit()
+        self.create_player_snake()
+        #8: change it to new_random_object
+        self.new_random_object(self.fruitn)
+        #9: create some obstacles : 
+        for _ in range(5):
+            self.new_random_object(3)
         
     
     def turn_first_right(self):
@@ -179,7 +196,39 @@ class GameController:
         if self.grid[self.snakes[0][0]] != -self.dim_x_singles: 
             self.grid[self.snakes[0][0]] = self.dim_x_singles              
 
+
+    #3: calculate a view frame if the hero is on some position:
+    #    
+    def calcframe(self,pos,xdim,ydim):
+        xhalf = xdim//2 + xdim%2
+        yhalf = ydim//2 + ydim%2
+        xhalf *=2 # // because dim_x cell is of size 2
         
+        assert pos%2 == 0
+        #print("calcframe", pos,xhalf,yhalf)
+        xpos = pos % self.dim_x_singles
+        assert ((pos - xpos) %  self.dim_x_singles) == 0
+        ypos = pos //self.dim_x_singles
+        
+
+        #align frame to max borders:
+        x1 = min(xpos + xhalf, self.dim_x_singles ) - xdim*2
+        y1 = min(ypos + yhalf, self.dim_y ) - ydim
+        
+        #align the frame to minimum borders 
+        x0 = max(x1,0)
+        y0 = max(y1,0)
+                
+        
+        
+        
+        assert (x0 %2) == 0
+        return x0//2,y0
+        
+    #7: helper for calc feame 
+    def calcframeh(self,x,y,xdim,ydim):
+        return self.calcframe(x*2+y*self.dim_x_singles,xdim,ydim)
+    
     
 
         
@@ -213,9 +262,12 @@ class GameController:
                 # just move the head forwards:
                 self.grid[next_pos] = dir_head
                 sn[0] = next_pos
-                #and create new fruit:
-                self.new_random_fruit()
+                #8: change to new_random_object #  create new fruit:
+                self.new_random_object(self.fruitn)
                 self.fintesses[index] += 1000
+                #9: create new obstacle : 
+                self.new_random_object(3)
+                
 
             else:
                 #there is a collision:
@@ -278,6 +330,42 @@ class GameController:
                
         return s
         #return str(self.snakes[0])
+    
+    #6: printout helper:
+    def toTextAreax(self, x,y , dimx, dimy ):
+        print("toTextAreax : " , x, y)
+        return self.toTextAread(2*x+y* self.dim_x_singles, dimx*2, (y+dimy)* self.dim_x_singles)
+        
+          
+    
+
+         
+    
+    
+    
+    #5: function to printout    
+    def toTextAread(self, pos, dimx, posmax ):  
+        #print("toTextAread : pos :" , pos , " dimx : " , dimx , " posmax ", posmax)  
+        s = ""
+        while( True):
+            for x in range(0,dimx,2):
+                symbol = self.displays[self.grid[pos+x]]
+                s += symbol+' '
+            pos+=self.dim_x_singles
+            if(pos >= posmax):
+                return s            
+            s+="\n"
+
+                
+    #11: lets create a view frame for snake head:
+    
+    
+    def  toTextAreaHead(self, xdim, ydim):
+        pos = self.snakes[0][0]
+        x0y0 = self.calcframe(pos,xdim,ydim)
+        s= self.toTextAreax(*x0y0, xdim, ydim)
+        return s
+             
         
     def toTextArea(self):
         s = ""

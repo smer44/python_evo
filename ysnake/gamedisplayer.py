@@ -37,7 +37,9 @@ class GameDisplayer():
         
         self.gc.move_all()
         self.score_label.configure(text= "Fitness : " + str(self.gc.fintesses[0]))
-        self.label.configure(text=str(self.gc.toTextArea()))
+        #11: change totextarea
+        #self.label.configure(text=str(self.gc.toTextArea()))
+        self.label.configure(text=str(self.gc.toTextAreaHead(10,10)))
         self.root.after(500, self.update_clock)
         
     #key binding must be executed before tk loop    
@@ -53,8 +55,8 @@ class GameDisplayer():
         
         
     
-
-gc = GameController(10,10)
+#10: change game size 
+gc = GameController(20,20)
 
 GameController.reset_session(gc)
 #gc.reset_session()

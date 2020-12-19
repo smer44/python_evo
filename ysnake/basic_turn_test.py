@@ -1,5 +1,5 @@
 
-from graphick_tutorials.gameobjs import *
+from ysnake.gameobjs import *
 
 gc = GameController(10,10)
 
