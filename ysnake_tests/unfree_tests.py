@@ -1,4 +1,4 @@
-from gameobjs import *
+from ysnake.gameobjs import *
 
 
 gc = GameController(5,5)
@@ -26,7 +26,7 @@ print("create fruits unfree test")
 amount = 5*5 
 
 for _ in range(amount-2):
-    gc.new_random_fruit()
+    gc.new_random_object(5)
     gc.checkfrees()
     gc.checkunfrees()
     
@@ -35,7 +35,7 @@ print(show())
 
 print(gc.frees)
 
-gc.new_random_fruit()
+gc.new_random_object(5)
 gc.checkunfrees()
 
 print(show())
