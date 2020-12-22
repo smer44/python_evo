@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkfont
 
-# TOFO - ok, there is a bug:
+
 from gameobjs import *
 
 fontname = 'Consolas' # "Segoi UI" # 'Times New Roman'
@@ -45,13 +45,13 @@ class GameDisplayer():
     #key binding must be executed before tk loop    
     def setgc(self,gc):
         self.gc = gc 
-        self.root.bind("<Up>",lambda event : gc.turn_first_up(), self.label.configure(text=str(self.gc.toTextArea())))
+        #TODO: update screen after button is pressed ? 
+        #self.root.bind("<Up>",lambda event : gc.turn_first_up(), self.label.configure(text=str(self.gc.toTextArea())))
+        self.root.bind("<Up>",lambda event : gc.turn_first_up())
         self.root.bind("<Down>",lambda event : gc.turn_first_down())
         self.root.bind("<Left>",lambda event : gc.turn_first_left())
         self.root.bind("<Right>",lambda event : gc.turn_first_right())
         
-        #TypeError: turn_first_right() takes 1 positional argument but 2 were given
-        # if self.root.bind("<Right>",gc.turn_first_right)
         
         
     
