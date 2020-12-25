@@ -21,7 +21,7 @@ child = np.where(randints, arr,arr2) # 0 - select from second if there is 0, fro
 print("--- selection from first or from second ---")
 print("child : " , child)
 
-
+"""
 randfloats = np.random.uniform(0,1,(2,3)) 
 
 print("---")
@@ -55,6 +55,8 @@ y = np.matmul(input2, arr)
 
 print("input2 mult arr : " , y )                   
 
+print("create array with zeroes")
+z = np.zeros(5)
 
-
-
+print(z)
+"""

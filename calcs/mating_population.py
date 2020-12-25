@@ -11,7 +11,7 @@ unit_indexes = [x for x in range(unit_size)] # 0,1,2,3...
 
 mutations_per_unit = 50
 
-population_size = 1000
+population_size = 1000# 2000
 
 
 
@@ -160,12 +160,10 @@ mutations_per_gen = mutations_per_gen_per_unit * population_size
 print("mutations_per_gen : " , mutations_per_gen)
 
 def add_mutations(population, mutations_per_gen):
-    count = 0
     for _ in range(mutations_per_gen):
         unit = r.choice(population)
         position = r.randint(0,len(unit)-1)
         unit[position] += 1
-        count +=1
     #print("count : " , count)
         
         
@@ -174,6 +172,17 @@ def add_mutations(population, mutations_per_gen):
 add_mutations(population, mutations_per_gen)
 plt.plot( sorted([sum(unit) for unit in population]))
 plt.show()  """
+
+def add_mutationsv2(population, mutations_per_unit):
+    for unit in population:
+        indexes = r.sample(unit_indexes, mutations_per_unit )
+        for index in indexes:
+            unit[index] += 1 
+                
+            
+
+
+
 
 
 # Test 8: the main text - simulation over multiple generations with mutations added :
@@ -184,7 +193,9 @@ def run_gen_mutx2(population, generations, mutations_per_gen):
     plt.plot( [sum(unit) for unit in population])
     plt.title('initial population ' )
     plt.show()      
-    
+    p = 0.25
+    pstr = str(int(p*100)) + ' % '
+    old_average = 0
     # repopulate 2x size:
     for n in range(generations):
         print("run_gen_mutx2 : step " , n)
@@ -192,29 +203,33 @@ def run_gen_mutx2(population, generations, mutations_per_gen):
         
         
         
-        add_mutations(population, mutations_per_gen)
+        #add_mutations(population, mutations_per_gen)
+        add_mutationsv2(population, 10)
         print("run_gen_mutx2 : added mutations " , mutations_per_gen)
         sum_average = sum([sum(unit) for unit in population]) / len(population)
-        print("run_gen_mutx2 : step " , n , "average mutations : " , sum_average)
+        print("run_gen_mutx2 : step " , n , "average mutations : " , sum_average , "difference from previous average : " , sum_average - old_average)
+        old_average = sum_average
         
         plt.plot( sorted([sum(unit) for unit in population]))
         plt.title('added mutations # '+str( n)  )
         plt.show()         
-        children = mate_all(population,4)
+        children = mate_all(population,8)
         print("run_genx2 : mated to be 2x size ")
         plt.plot( sorted([sum(unit) for unit in children]))
         plt.title('children mated 2x size # '+str( n)  )
         plt.show()       
         
-        children = kill_worst(children, 0.5)
+        children = kill_worst(children, p)
         population  = children
         plt.plot( [sum(unit) for unit in children])
-        plt.title('best half survived # '+str( n)  )
+        plt.title('best ' + pstr + ' survived # '+str( n)  )
         plt.show()    
     return population
             
 
-run_gen_mutx2(population, 10,4*1000)
+run_gen_mutx2(population, 20,4*population_size)
+
+# on 10 mutations per unit, 25% survivers, it gets stabilized
 
 
         

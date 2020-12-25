@@ -42,6 +42,15 @@ class GameController:
                     -self.dim_x_singles:'^'
         
                     }
+        
+        self.nnmap= {0:[0,0,0],
+                    -2:[1,0,0],
+                     2:[1,0,0], 
+                     self.fruitn : [0,1,0],
+                     3 :[1,0,0],
+                     self.dim_x_singles:[1,0,0],
+                     -self.dim_x_singles:[1,0,0],
+            }
      
         #xxxxxx
         #x0000x
@@ -225,7 +234,7 @@ class GameController:
         assert (x0 %2) == 0
         return x0//2,y0
         
-    #7: helper for calc feame 
+    #7: helper for calcframe function 
     def calcframeh(self,x,y,xdim,ydim):
         return self.calcframe(x*2+y*self.dim_x_singles,xdim,ydim)
     
@@ -368,21 +377,34 @@ class GameController:
              
         
     def toTextArea(self):
-        s = ""
-
-        
-        for n in range(0,len(self.grid),2):
-            
+        s = ""        
+        for n in range(0,len(self.grid),2):            
             if not (n % self.dim_x_singles):
-                s+="\n"
-            
+                s+="\n"            
             symbol = self.displays[self.grid[n]]
-            s += symbol+' '
- 
-      
-        
-               
+            s += symbol+' ' 
         return s
+    
+    # obstacke[1,0,0}, fruit =[0,1,0], head = [0,0,1]
+    # obstacke = 1, fruit = 0.5 ,head = 0
+    
+    def toNInput(self):
+        s = []
+        for n in range(0,len(self.grid),2):  
+            symbol = self.nnmap[self.grid[n]]
+            
+            s+=symbol
+        # mark sneak head 
+        head_pos = self.snakes[0][0] //2 * 3
+        print("head_pos : " , head_pos)
+        s[head_pos] = 0
+        s[head_pos+1] = 0
+        s[head_pos+2] = 1
+        return s
+        
+        
+             
+            
         
         
         
