@@ -15,7 +15,7 @@ class GameController:
         self.deaths = []
         self.snakes = []
         self.fintesses = []
-        
+        #self.last_fintesses = []
         self.reset_grid(dim_x, dim_y)
         
         print('__init__')
@@ -167,6 +167,7 @@ class GameController:
         
         self.snakes.append(sn) # snake = [head, tail]
         self.fintesses.append(0)
+        print("reset fintess for snake ", len(self.snakes)-1 )
         #self.loosers.append(0)
         return sn
         
@@ -175,9 +176,13 @@ class GameController:
         dir = - self.dim_x_singles
         self.player_snake = self.create_snake(6, 6, dir, 3)
         
-        
+     
+    def reset_fintesses(self):
+        self.last_fintesses = self.fintesses
+        self.fitnesses = []
     
     def reset_session(self):
+        self.reset_fintesses()
         self.reset_grid(self.dim_x_pairs -2 , self.dim_y-2)
         self.snakes = []
         self.create_player_snake()
@@ -203,7 +208,17 @@ class GameController:
         
     def turn_first_down(self):
         if self.grid[self.snakes[0][0]] != -self.dim_x_singles: 
-            self.grid[self.snakes[0][0]] = self.dim_x_singles              
+            self.grid[self.snakes[0][0]] = self.dim_x_singles   
+            
+     
+    #+100: turn function       
+    def turn(self, snake_nr, dir_index):
+        snake_head = self.snakes[snake_nr][0]
+        old_dir = self.grid[snake_head]
+        new_dir = self.directions[dir_index]       
+        #hard rules - lost if opposite direction chosed:
+        self.grid[snake_head] = new_dir
+        print("turn : old_dir : " , old_dir , "new_dir : " , new_dir)
 
 
     #3: calculate a view frame if the hero is on some position:
@@ -281,7 +296,7 @@ class GameController:
             else:
                 #there is a collision:
                 self.loosers.append(index)
-                self.fintesses[index] =0
+                #self.fintesses[index] =0
                 
         else:
             #get coordinates and direction of the tail:
@@ -310,7 +325,7 @@ class GameController:
         print("move_all len" , all_ln)
         for x in range(all_ln):
             self.move_snake(self.snakes[x],x)
-        self.checkloosers()
+        return self.checkloosers()
                 
     def checkloosers(self):
         if self.loosers:
@@ -318,6 +333,8 @@ class GameController:
             #    unit.deaths +=1
             self.reset_session()
             print("session reseted")
+            return False
+        return True
             
 
     

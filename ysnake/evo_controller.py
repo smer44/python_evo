@@ -100,7 +100,7 @@ class EvoController:
         
         #self.weights = level0[indexes], level1[indexes], level2[indexes] 
         self.weights = [weight[indexes] for weight in self.weights]
-        print("survive: ", len(self.weights[0]))
+        #print("survive: ", len(self.weights[0]))
         
         #not nessasary
         self.errors = self.errors[indexes]
@@ -112,14 +112,29 @@ class EvoController:
         for weights_level in self.weights:
             new_shape = (self.pop_size, *weights_level.shape[1:])
             chilren_level = np.zeros(new_shape)
-            print("mate_all : new_shape : " , new_shape)
-            index=0
-            for unit_nr in range(0,self.survive_count,2):
-                father = weights_level[self.mate_indexes[unit_nr]]
-                mother = weights_level[self.mate_indexes[(unit_nr+1)%self.survive_count]]
+            #print("mate_all : new_shape : " , new_shape)
+            #index=0
+            # short to say, something wrong was mit indexes here 
+            # if you index for 0 to self.survive_count
+            count = 0
+            # for unit_nr in range(0,self.survive_count,2):
+            #    father = weights_level[self.mate_indexes[unit_nr]]
+            #    mother = weights_level[self.mate_indexes[(unit_nr+1)%self.survive_count]]
+            #    child = self.mate_fn(father, mother)
+            #    chilren_level[count] = child
+            #    count +=1 
+          
+            for child_index in range(0,self.pop_size):
+                father_index = self.mate_indexes[child_index % self.survive_count]
+                mother_index = self.mate_indexes[(child_index+1)%self.survive_count]
+                #print("father_index : " , father_index , "mother_index : ", mother_index )
+                father = weights_level[father_index]
+                mother = weights_level[mother_index]
                 child = self.mate_fn(father, mother)
-                chilren_level[index] = child
-                index +=1
+                chilren_level[child_index] = child
+                count +=1 # count = 20
+            #print("count : ",count)
+                #index +=1
             children.append(chilren_level)
         self.weights = children
         #nullify fitness?
@@ -137,75 +152,4 @@ class EvoController:
         
 
 
-def forward_all_for_input(ec, n):
-    #print("forward_all_for_input(", n , "), fintesses len ", len(sc.errors))
-    for unit in range(pop_size):
-        out = ec.forward(unit, inputs[n])
-        error = manhattan(out, expected[n])
-        ec.errors[unit] += error 
-                    
-def forward_all(ec):
-    for n in range(len(inputs)):
-        forward_all_for_input(ec,n)
 
-
-inputs = np.array([[0,0,1],[0,1,0],[1,0,0]])
-
-
-expected = np.array([[1,0,1,0,1], [0,1,0,1,0], [0,1,1,0,1]])
-        
-    
-pop_size = 20
-
-layer_dimms = 3,10,5
-
-ec = EvoController(pop_size,*layer_dimms)
-
-
-forward_all(ec)
-
-#print(ec.layers[-1])
-print(np.sum(ec.errors) )
-
-ec.next_gen()
-
-forward_all(ec)
-
-print(np.sum(ec.errors) )
-
-for _ in range(200):
-    ec.next_gen()
-    forward_all(ec)
-    print(np.sum(ec.errors) )
-    
-    
-
-"""out = ec.forward(0, inputs[0])
-
-print(out)
-
-error  = manhattan(out, expected[0])
-
-print(error)"""
-
-
-
-"""
-a = np.array([[1,2,3],[4,5,6]])
-
-b = np.array([[10,20,30],[40,50,60]])
-
-
-print( a.shape)             
-print(np.abs(a-b).sum(0))"""
-
-              
-
-"""arr = np.array([1,2,3])
-
-arr2 = np.array([10,20,30])
-
-
-child = mate_interpolate(arr, arr2)
-
-pp.pprint(child)"""

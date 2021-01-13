@@ -2,6 +2,14 @@ import random as r
 
 import matplotlib.pyplot as plt
 
+    
+# calculating the probability of 2 mutations to be the same :
+def count_same_mutations(a, b):
+    count = 0
+    for x in range(len(a)):
+        if a[x] and b[x]:
+            count += 1
+    return count
 
 
 population_size = 1000
@@ -31,10 +39,12 @@ for unit in population:
 
 #indexes = [n for n in range (histo.values().length())]
 
-"""x = population
+x = population
 
-x = histo.values()
+#x = histo.values()
+
+x = sorted(x)
 
 plt.plot(x)
 
-plt.show()"""
+plt.show()

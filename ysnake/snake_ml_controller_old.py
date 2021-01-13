@@ -47,7 +47,7 @@ class EvoController_Old:
         self.mate_times = 4
         
         
-"""    def init_layers(self,pop_size,*layer_dimms):
+    def init_layers(self,pop_size,*layer_dimms):
         layers= []
         for d in layer_dimms:
             dim = (pop_size, d)
@@ -56,7 +56,7 @@ class EvoController_Old:
             layers.append(layer)
         
         #return np.random.normal(0.5,0.2,(pop_size,*layer_dimms))
-        return layers"""
+        return layers
 
     
     def init_weights(self,pop_size,*layer_dimms):
