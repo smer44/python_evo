@@ -187,7 +187,7 @@ def run_genx2(population, generations):
         
 
 
-#children2 = run_genx2(children,10)      
+children2 = run_genx2(children,10)      
     
     
     
@@ -216,7 +216,7 @@ avg = sum(mut_counts) / len(mut_counts)
 
 plt.title( "Simulation 4. Lets put all together and add mutations to initial population\n this must be 50 + poisson-distrubuted \n now the average " + str(avg)) 
 plt.plot( mut_counts)
-#plt.show()
+plt.show()
 
 
 #adding  mutations_per_unit mutations to each unit in population
@@ -288,7 +288,7 @@ def run_gen_mutx2(population, generations, mutations_per_someth, mutation_fn = a
 mutations_per_unit = 4
 mutations_per_gen = mutations_per_unit*population_size
 
-generations = 20
+generations = 2
 
 run_gen_mutx2(population, generations, mutations_per_gen)
 
@@ -338,7 +338,7 @@ def run_gen_mutv3(population, generations, mutations_per_someth, p = 0.5, mutati
     return population, avgs
 
 
-mutations_per_unit = 6
+mutations_per_unit = 3
 starting_mutation_perunit = 50
 mutations_per_gen = mutations_per_unit*population_size
 
@@ -348,6 +348,6 @@ add_mutations(population, mutations_per_gen)
 population, avgs = run_gen_mutv3(population,1000,mutations_per_gen,0.5)    
 
 plt.plot(avgs)
-plt.title("Simulation 5: lets view only average mutation amount:" )
+plt.title("Simulation 5: average mutation amount over generations \n with mutations per unit :" + str(mutations_per_unit) )
 plt.show()    
         
