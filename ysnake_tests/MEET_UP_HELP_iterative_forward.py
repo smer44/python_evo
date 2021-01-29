@@ -1,6 +1,8 @@
 from ysnake.gameobjs import *
 from ysnake.evo_controller import *
 
+#List of modifications : 
+#1)
 
 dx, dy = 5 ,5
 
@@ -55,47 +57,57 @@ ec = EvoController(pop_size,*layer_dimms)
 
 
 
-# what do we do each step :
+# ---- what do we do each step --- :
+# gain decision from Controller, with  network number n :
 out = ec.forward(0, input)
 
 print("out : " , out)
 
+# maximal value from out vector is the best move
 sndir = np.argmax(out)
 print("argmax=direction : " , sndir)
 
-
+# make this move in the game
 gc.turn(0,sndir)
 
+# get result of the move - false if snake crashed
 move_result = gc.move_all()
 print("moved_without_crash : " , move_result)
 
 
-
+# the score of the snake is in fintesses[<snake_nr>)
 score = gc.fintesses[0] if move_result else gc.last_fintesses[0]
 
 print("score : " , score )
 
 # now, lets put it into a method:
-max_steps = 200
 
+gc.reset_session()
 def iterative_forward():
     count = 0
+    max_steps = 200
     good_step = True
-    while(count < max_steps and good_step):    
+    print("iterative_forward start" )
+    while(count < max_steps and good_step):
+        input = gc.toNInput()    
+        s = gc.toTextArea()
+        print(" --- input ---")
+        print(s)
+        
         out = ec.forward(0, input)
         sndir = np.argmax(out)
         gc.turn(0,sndir)
         good_step = gc.move_all()
         
-        score = gc.fintesses[0] if move_result else gc.last_fintesses[0]
+        score = gc.fintesses[0] if good_step else gc.last_fintesses[0]
         #check:
         print("score : " , score )
     score = gc.last_fintesses[0]
     print("final_score : " , score )
         
     
-        
-    
+print("--- DENOMSTRATES THE INERATIVE RUN FRO A SNAKE NUMBER 0")        
+iterative_forward()    
     
     
     

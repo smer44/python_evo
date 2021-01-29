@@ -6,7 +6,9 @@ from gameobjs import *
 
 fontname = 'Consolas' # "Segoi UI" # 'Times New Roman'
 
-
+#ideas - 
+#keyup- set negative speed
+#key down - set speed
 
 class GameDisplayer():
     def __init__(self, gc):

@@ -15,9 +15,9 @@ x = 80
 y = 120
         
     
-popsize =  2000
+popsize =  5000
 
-mutations_per_unit = 3
+mutations_per_unit = 80
 
 survival_rate = 0.75
 

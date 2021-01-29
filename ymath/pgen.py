@@ -126,7 +126,7 @@ def run_gen_mut(pop, generations, mutations_per_someth, survival_rate = 0.5, mut
         # mate for next generation
         pop = mate_all(pop,pop_size)
         print("run_gen_mut: finished generation " , n  , "avg : " , avg  )
-        show_sorted(pop)
+        #show_sorted(pop)
             
     return pop, avgs        
         

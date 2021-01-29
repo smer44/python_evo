@@ -17,8 +17,17 @@ class GameController:
         self.fintesses = []
         #self.last_fintesses = []
         self.reset_grid(dim_x, dim_y)
+ 
+         
+        self.set_snake_start(self.xhalf//2-2, self.yhalf, -self.dim_x_singles, 3)
         
         print('__init__')
+        
+    #SHOW: Small change 
+    def set_snake_start(self, x,y, dir, sn_len):
+        print("init snake start ", x,y, dir, sn_len)
+        self.snake_start_x , self.snake_start_y = x,y
+        self.snake_start_dir , self.snake_start_len = dir, sn_len 
         
     #2: self.xhalf variable = size of half width pf cells, + 1 if it is odd
     def reset_grid(self,dim_x, dim_y):
@@ -174,14 +183,14 @@ class GameController:
     # 1:  self.player_snake   
     def create_player_snake(self):
         dir = - self.dim_x_singles
-        self.player_snake = self.create_snake(6, 6, dir, 3)
+        self.player_snake = self.create_snake(self.snake_start_x*2, self.snake_start_y, dir, 3)
         
      
     def reset_fintesses(self):
         self.last_fintesses = self.fintesses
         self.fitnesses = []
     
-    def reset_session(self):
+    def reset_session(self, obstakles = 0):
         self.reset_fintesses()
         self.reset_grid(self.dim_x_pairs -2 , self.dim_y-2)
         self.snakes = []
@@ -189,7 +198,7 @@ class GameController:
         #8: change it to new_random_object
         self.new_random_object(self.fruitn)
         #9: create some obstacles : 
-        for _ in range(5):
+        for _ in range(obstakles):
             self.new_random_object(3)
         
     
@@ -253,20 +262,7 @@ class GameController:
     def calcframeh(self,x,y,xdim,ydim):
         return self.calcframe(x*2+y*self.dim_x_singles,xdim,ydim)
     
-    
-
-        
-    
-    #def new_fruit(self,x,y):
-    #    self.grid[y *  self.dim_x + x] = self.fruitn 
-            
-
-        
-    #def is_inbounds(self, x):
-    #    return 0 <= x and x < self.dimall and x  % self.dim_x
-        
-        #return 0 <= x and x <  self.dim_x  and 0 <= y and y < self.dim_y  
-    
+ 
 
     def move_snake(self,sn, index):
         head_pos = sn[0]
