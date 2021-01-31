@@ -17,11 +17,16 @@ class GameController:
         self.fintesses = []
         #self.last_fintesses = []
         self.reset_grid(dim_x, dim_y)
- 
+        self.fitness_per_move = 1
+        self.initial_fitness = 50
          
         self.set_snake_start(self.xhalf//2-2, self.yhalf, -self.dim_x_singles, 3)
         
         print('__init__')
+        
+    def reset_fitnesses(self):
+        self.fintesses = []
+        
         
     #SHOW: Small change 
     def set_snake_start(self, x,y, dir, sn_len):
@@ -175,7 +180,7 @@ class GameController:
         sn = [head, tail]
         
         self.snakes.append(sn) # snake = [head, tail]
-        self.fintesses.append(0)
+        self.fintesses.append(self.initial_fitness)
         print("reset fintess for snake ", len(self.snakes)-1 )
         #self.loosers.append(0)
         return sn
@@ -307,7 +312,7 @@ class GameController:
             #set  new head position to the snake:
             sn[0] = next_pos
             self.changefree(next_pos, tail)
-            self.fintesses[index] += 1
+            self.fintesses[index] += self.fitness_per_move
             
 
             

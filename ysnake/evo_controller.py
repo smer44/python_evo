@@ -46,6 +46,8 @@ class EvoController:
         self.layers = self.init_layers(pop_size, *layer_dimms)
         self.weights = self.init_weights(pop_size, *layer_dimms)
         
+    def info(self):
+        return f"survive rate {self.survive_rate}"
         
         
     def init_weights(self,pop_size,*layer_dimms):

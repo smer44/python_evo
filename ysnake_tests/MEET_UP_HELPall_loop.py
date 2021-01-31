@@ -28,7 +28,7 @@ dimx = (dx+2)
 
 gc.reset_session()
 
-pop_size = 20
+pop_size = 50#20
 
 input = gc.toNInput()
 
@@ -43,14 +43,23 @@ ec = EvoController(pop_size,*layer_dimms)
 #input = gc.toNInput()
 #print(ppr(input, dimx))
 
+# DONE - also i have set -1 for each move, to stimulate snakes do not move in loop 
+#Added initial fitness to start with 
 
-def iterative_unit(unit_nr):
+gc.fitness_per_move = 1#-1
+gc.initial_fitness = 0#50
+gc.crash_fitness = 0 #
+
+#TODO: this must be in some class train controller:
+
+def iterative_unit(unit_nr, show = False):
     count = 0
-    max_steps = 200
+    max_steps = 50
     good_step = True    
     gc.reset_session()
     while(count < max_steps and good_step):
-        #print(gc.toTextArea())    
+        if show: 
+            print(gc.toTextArea())    
         input = gc.toNInput()
         out = ec.forward(unit_nr, input)
         sndir = np.argmax(out)
@@ -59,11 +68,14 @@ def iterative_unit(unit_nr):
         
 
     score = gc.fintesses[0] if good_step else gc.last_fintesses[0]
+    #do not forget to make zero fro fitnesses for each snake 
+    gc.fintesses[0]  = 0
+    gc.last_fintesses[0] = 0
     return score
     
    
 #Test 1 - iterative_unit
-#score = iterative_unit(0)try it severaltimes 
+#score = iterative_unit(0, True)try it severaltimes 
 #print("final_score : " , score )
 
 def iterative_all(pop_size):
@@ -97,12 +109,14 @@ def gen_step():
     ec.mate_all()
     ec.mutate_all()
     
-gens = 20
+gens = 200
 
 for x in range(gens):
     gen_step()
-    
-    
+
+
+score = iterative_unit(0, True)
+print(score)    
     
 
 
