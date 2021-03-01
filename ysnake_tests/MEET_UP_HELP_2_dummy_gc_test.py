@@ -1,5 +1,5 @@
-from ysnake.dummy_game_controller import *
-from ysnake.evo_controller import *
+from ysnake_old.dummy_game_controller import *
+from ysnake_old.evo_controller import *
 
 
 

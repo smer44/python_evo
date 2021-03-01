@@ -1,80 +1,35 @@
 
-class Any:
-    
-    def __init__(self,parent, cname, **kwargs):
-        
-        if parent:
-            self.__set_all__(parent.__dict__)     
-        
-        # validate child fields over parent fields?
-        
-        self.__update_all__(kwargs)
-        self.cname = cname
-
-        
-        
-    def __set_key__(self,key, value):
-        if isinstance(value, list):
-            self.__dict__[key] = value.copy()
-            return 
-        self.__dict__[key] = value
-        
-    def __update_key__(self,key, value):
-        if isinstance(value, list):
-            old = self.__dict__.get(key,None)
-            if old:
-                old.extend(value.clone())
-                return 
-            self.__dict__[key] = value.copy()
-            return 
-        self.__dict__[key] = value
-        
-    def check(self):
-        for rule in self.rules:
-            if not rule(self):
-                return False 
-        return True
-        
-    def fstr(self):
-        return self.fs(self)    
-            
-        
-
-    def __set_all__(self, d):
-        for k,v in d.items():
-            self.__set_key__(k, v)
-            
-    def __update_all__(self,d):
-        for k,v in d.items():
-            self.__update_key__(k, v)            
-    
-            
-        
-        
-    def __str__(self):
-        return f'<{self.__dict__.get("cname",repr(self))}>' 
-    
-    def __repr__(self):
-        return f'Any{self.__dict__}'    
-    
-    def __call__(self, cname, **kwargs):
-        return Any(self, cname, **kwargs)
-        
+from csmodel.any import *      
     
     
 # some basic elements:
 
 
-action = Any(None, "Action" , action = True, active = bool )
+action = Any(None, "Action" , action = True, active = bool , info = bool, discrete = bool)
 
-object = Any(None, "Object", object = True, active = bool)
+object = Any(None, "Object", object = True, active = bool, info = bool, discrete = bool)
+
+aliveobj = object("Alive", info = False, discrete= True, alive = True)
+
+
+
 
 # an active object can make any action and passive object can make only passive action
+# an info object can do only info action, a physical object can do both
+# a discrete object can only do discrete action, 
+
+# an non alive objet can not do alive action
 #action.active -> subject.active
+#TODO rule evaluator
+
 can_relation = Any(None, "can_rel",
                 subject = object, 
                 action = action, 
-                rules = [lambda me: not me.action.active or me.subject.active  ],               
+                rules = [lambda me: not me.action.active or me.subject.active , 
+                         lambda me: not me.subject.info or me.action.info , 
+                         lambda me: me.subject.discrete == me.action.discrete,
+                         lambda me: not me.action.alive or me.subject.alive, 
+                          ],               
                 fs = lambda me : f'{me.subject} can {["not", ""][me.check()]} {me.action} '
                 )
 

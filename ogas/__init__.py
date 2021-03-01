@@ -24,6 +24,7 @@ class Consumer:
                 # consume:
                 self.local_storage -= self.one_consume_quantity
                 if (self.local_storage < 0):
+                    pass
                     
                 
         

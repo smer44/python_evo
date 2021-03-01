@@ -1,5 +1,5 @@
-from ysnake.gameobjs import *
-from ysnake.evo_controller import *
+from ysnake_old.gameobjs import *
+from ysnake_old.evo_controller import *
 
 #List of modifications : 
 #1)
@@ -106,7 +106,7 @@ def iterative_forward():
     print("final_score : " , score )
         
     
-print("--- DENOMSTRATES THE INERATIVE RUN FRO A SNAKE NUMBER 0")        
+print("--- DENOMSTRATES THE ITERATIVE RUN FOR A SNAKE NUMBER 0")        
 iterative_forward()    
     
     

@@ -1,6 +1,7 @@
 import random as r
 import matplotlib.pyplot as plt
 
+from ymath.yprob import *
 
 
 def new_unit(unit_size, mutations_amount ):
@@ -54,13 +55,7 @@ def to_histo(arr, hmin= None, hmax = None):
         histo[x] = histo.get(x,0) + 1
     return histo 
 
-def histo_to_xy(histo,population_size):
-    tuples = histo.items()
-    tuples = sorted(tuples, key = lambda t: t[0])
-    xx = [ t[0] for t in tuples]
-    yy = [ t[1]/population_size for t in tuples]#divide to normalize it 
-    return xx,yy
-     
+
 
 
 

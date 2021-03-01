@@ -1,6 +1,6 @@
 
-from ysnake.gameobjs import *
-from ysnake.evo_controller import *
+from ysnake_old.gameobjs import *
+from ysnake_old.evo_controller import *
 
 import pprint as pp
 import numpy as np
