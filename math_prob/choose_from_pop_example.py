@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from math_prob.ycombi import *
 
 
-pop = new_01sh(400,600)
+pop = new_arr01(400,600)
 
 print(pop)
 
@@ -17,7 +17,7 @@ s = sum(sam)
 print(s)
 
 def step():
-    pop = new_01sh(400,600)
+    pop = new_arr01(400,600)
     sam = r.sample(pop,100)
     s = sum(sam)
     return s

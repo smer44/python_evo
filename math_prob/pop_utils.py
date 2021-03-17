@@ -18,7 +18,7 @@ def new_fixedcount(a,b,size1,size2,shuffle_fn):
     return arr
 
     
-def new_01sh(size1,size2):
+def new_arr01(size1,size2):
     return new_fixedcount(0,1,size1,size2,r.shuffle)
 
 

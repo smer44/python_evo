@@ -56,8 +56,10 @@ def fib_mod(n,m):
 
 
 def main():
-    n, m = map(int, input().split())
-    print(calc_period(n, m))
+    #n, m = map(int, input().split())
+    
+    for n,m, expected  in tests:
+        print(calc_period(n, m))
 
 
 if __name__ == "__main__":
