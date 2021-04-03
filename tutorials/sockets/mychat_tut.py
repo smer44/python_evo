@@ -57,6 +57,7 @@ class  MyChat(tk.Tk):
 
 
     def try_to_receive(self):
+        count = 0
         while True:
             #print(f'try_to_receive: tick!')
             if self.socket:
@@ -66,6 +67,8 @@ class  MyChat(tk.Tk):
                     tk.Label(self.chat_frame.interior, text = '- Answer - :'  + data).pack()
                     
             time.sleep(1)
+            print(f'sleeped: {count}')
+            count +=1
             
         
     def connect_socket(self):            

@@ -12,6 +12,9 @@ window2.mainloop()
 
 https://www.python-kurs.eu/tkinter_textfelder.php
 
+
+OLD
+
 """
 
 
